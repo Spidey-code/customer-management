@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "90d61ef6-05ce-4e5d-a039-fdaa67f62adf",
+		"name": "customer manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34963205"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check if response contains tokens object\", function () {\r",
+							"    pm.expect(pm.response.json().data.tokens).to.exist;\r",
+							"});\r",
+							"\r",
+							"var token = pm.response.json().data.token;\r",
+							"pm.environment.set(\"token\", token);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"mymail@sj.com\",\r\n    \"password\": \"fskahf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/login",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "forgot password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"oldPassword\": \"newPwass\",\r\n    \"newPassword\": \"fskahf\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/forgotPassword",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"forgotPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create customer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fullName\": \"cust\",\r\n    \"mobileNo\": \"8493828424\",\r\n    \"dob\": \"11/10/21\",  // MM-DD-YYYY\r\n    \"gender\": 0,\r\n    \"address\":[\r\n        {\r\n            \"address\": \"fdsf\",\r\n            \"landmark\": \"dfkjsjf\",\r\n            \"pincode\": \"396195\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/addCustomer",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"addCustomer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get customer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/users/getCustomer?id=4",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"getCustomer"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update Customer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 20,\r\n    \"fullName\": \"customer\",\r\n    \"mobileNo\": \"8493828424\",\r\n    \"dob\": \"11/10/21\",  // MM-DD-YYYY\r\n    \"gender\": 0,\r\n    \"address\":[\r\n        {\r\n            \"id\": 1,\r\n            \"address\": \"fds\",\r\n            \"landmark\": \"dfkjsjf\",\r\n            \"pincode\": \"396195\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{server}}/users/updateCustomer",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"users",
+						"updateCustomer"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "4",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
